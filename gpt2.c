@@ -10,7 +10,7 @@ void buildVocabFromFile(Tokenizer *tokenizer){
     FILE *file = fopen("the-verdict.txt", "r");
     if (!file) {
         printf("Error opening file\n");
-        return 1;
+        return;
     }
 
     char *vocab[1000];
@@ -42,10 +42,8 @@ void buildVocabFromFile(Tokenizer *tokenizer){
     fclose(file);
 
     // initizlize tokenizer from file contents
-    init_tokenizer(&tokenizer, vocab, vocab_size);
+    init_tokenizer(tokenizer, vocab, vocab_size);
 }
-
-
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
@@ -67,7 +65,7 @@ int main(int argc, char *argv[]) {
     Tokenizer tokenizer;
     buildVocabFromFile(&tokenizer);
     
-    // Update config with actual vocab size
+    // TEMP: while we load from file - update config with actual vocab size 
     config.vocab_size = tokenizer.vocab_size;
 
     GPTModel model;

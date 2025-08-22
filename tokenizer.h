@@ -2,10 +2,12 @@
 #include <ctype.h>
 #include <assert.h>
 
-typedef struct {
+typedef struct Tokenizer{
     char **vocab;     // vocabulary strings
     int *token_ids;   // corresponding token IDs
     int vocab_size;   // number of tokens
+
+    
 } Tokenizer;
 
 #include <string.h>

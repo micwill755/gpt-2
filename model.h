@@ -1,4 +1,4 @@
-
+#include <stdbool.h>
 #include "embedding.h"
 
 typedef struct {
@@ -11,15 +11,17 @@ typedef struct {
     bool qkv_bias;
 } GPTConfig;
 
-typedef struct {
+typedef struct GPTModel {
     int emb_dim;
     Embedding tok_embeds;
+    Embedding pos_embeds;
     
     // Method pointers
-    void (*init)(struct GPTModel *self);
-    int (*forward)(struct GPTModel *self, char *text, int *tokens, int in_idx);
+    void (*init)(GPTConfig *config);
+    int (*forward)(char *text, int *tokens, int in_idx);
 } GPTModel;
 
-void GPTModel_init(GPTModel *self, GPTConfig *config) {
-    self->tok_embeds.vocab_size = config->vocab_size;
+void GPTModel_init(GPTModel *model, GPTConfig *config) {
+    embedding_init(&model->tok_embeds, config->vocab_size, model->emb_dim);
+    embedding_init(&model->pos_embeds, config->context_length, model->emb_dim);
 }
